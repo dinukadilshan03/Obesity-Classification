@@ -127,7 +127,6 @@ if submit:
     }
     result_color = severity_colors.get(prediction, "#007bff")
     
-    st.balloons()
     st.markdown(f"""
         <div class="result-card" style="border-left-color: {result_color};">
             <h2 style="color: {result_color}; margin: 0;">Predicted Class: {prediction.replace('_', ' ')}</h2>
