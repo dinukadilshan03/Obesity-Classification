@@ -1,4 +1,4 @@
-# ⚖️ Obesity Classification AI
+# Obesity Classification AI
 
 A comprehensive machine learning solution that accurately predicts obesity categories using physical metrics, dietary habits, and lifestyle data. The project achieves **96.22% accuracy** through optimized logistic regression and provides an interactive web interface for real-time obesity risk assessment.
 
@@ -6,7 +6,20 @@ A comprehensive machine learning solution that accurately predicts obesity categ
 
 ---
 
-## 🎯 Project Overview
+## Live Demo
+
+<div align="center">
+
+[![Obesity Classification App](https://img.shields.io/badge/🌐_LAUNCH_LIVE_APP-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://obesity-classification-7r3s7gmmohdf3yhobxhysy.streamlit.app/)
+
+<a href="https://obesity-classification-7r3s7gmmohdf3yhobxhysy.streamlit.app/">
+  <img src="assets/app-screenshot.png" alt="Obesity Classification Demo" width="700"/>
+</a>
+</div>
+
+---
+
+## Project Overview
 
 This AI-powered system classifies individuals into **7 distinct obesity categories** ranging from Insufficient Weight to Obesity Type III. The solution combines advanced feature engineering, robust preprocessing pipelines, and hyperparameter-optimized machine learning to deliver medical-grade predictions with high reliability.
 
@@ -21,7 +34,7 @@ This AI-powered system classifies individuals into **7 distinct obesity categori
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ### System Design
 
@@ -78,7 +91,7 @@ This AI-powered system classifies individuals into **7 distinct obesity categori
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### **Core Machine Learning**
 - **Python 3.x** - Primary programming language
@@ -108,7 +121,7 @@ This AI-powered system classifies individuals into **7 distinct obesity categori
 
 ---
 
-## 🧠 Technologies & Methodologies
+## Technologies & Methodologies
 
 ### Machine Learning Algorithms
 - **Logistic Regression** (Primary classifier)
@@ -139,7 +152,7 @@ This AI-powered system classifies individuals into **7 distinct obesity categori
 
 ---
 
-## 📊 Model Performance
+## Model Performance
 
 | Metric | Score |
 |--------|-------|
@@ -153,7 +166,7 @@ This AI-powered system classifies individuals into **7 distinct obesity categori
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 classification-obesity/
@@ -183,20 +196,7 @@ classification-obesity/
 
 ---
 
-##Live Demo
-
-<div align="center">
-
-[![Obesity Classification App](https://img.shields.io/badge/🌐_LAUNCH_LIVE_APP-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://obesity-classification-7r3s7gmmohdf3yhobxhysy.streamlit.app/)
-
-<a href="https://obesity-classification-7r3s7gmmohdf3yhobxhysy.streamlit.app/">
-  <img src="assets/app-screenshot.png" alt="Obesity Classification Demo" width="700"/>
-</a>
-</div>
-
----
-
-## 📈 Features
+## Features
 
 ### Input Parameters (17 Features)
 - **Physical Metrics**: Gender, Age, Height, Weight
@@ -204,15 +204,15 @@ classification-obesity/
 - **Lifestyle Factors**: Family history, physical activity frequency, calorie monitoring, smoking status, technology usage, transportation mode
 
 ### Application Capabilities
-- ✅ Real-time obesity category prediction
-- ✅ Interactive user-friendly interface
-- ✅ Instant AI-powered health assessment
-- ✅ Confidence scoring for predictions
-- ✅ Responsive design for all devices
+- Real-time obesity category prediction
+- Interactive user-friendly interface
+- Instant AI-powered health assessment
+- Confidence scoring for predictions
+- Responsive design for all devices
 
 ---
 
-## 🔬 Development Workflow
+## Development Workflow
 
 1. **Exploratory Data Analysis** ([EDA.ipynb](notebooks/EDA.ipynb))
    - Statistical analysis of 2,098 samples
@@ -241,7 +241,7 @@ classification-obesity/
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Feel free to:
 - Report bugs
@@ -251,13 +251,13 @@ Contributions are welcome! Feel free to:
 
 ---
 
-## 📄 License
+## License
 
 This project is open-source and available under the MIT License.
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 **Dinuka Dilshan**
 - GitHub: [@dinukadilshan03](https://github.com/dinukadilshan03)
@@ -265,7 +265,7 @@ This project is open-source and available under the MIT License.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Dataset sourced from publicly available obesity research data
 - Built with scikit-learn, Streamlit, and the Python data science ecosystem
@@ -273,4 +273,4 @@ This project is open-source and available under the MIT License.
 
 ---
 
-**⭐ If you find this project helpful, please give it a star!**
+**If you find this project helpful, please give it a star!**
