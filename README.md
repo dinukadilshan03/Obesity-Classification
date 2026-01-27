@@ -183,22 +183,15 @@ classification-obesity/
 
 ---
 
-## 🚀 Live Demo
+##Live Demo
 
 <div align="center">
-
-### 🎯 **Try the AI-Powered Obesity Classifier Now!**
 
 [![Obesity Classification App](https://img.shields.io/badge/🌐_LAUNCH_LIVE_APP-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://obesity-classification-7r3s7gmmohdf3yhobxhysy.streamlit.app/)
 
 <a href="https://obesity-classification-7r3s7gmmohdf3yhobxhysy.streamlit.app/">
   <img src="assets/app-screenshot.png" alt="Obesity Classification Demo" width="700"/>
 </a>
-
-**👆 Click the image above to view the live application**
-
-*No installation required • Instant predictions • Free to use*
-
 </div>
 
 ---
