@@ -255,22 +255,3 @@ Contributions are welcome! Feel free to:
 
 This project is open-source and available under the MIT License.
 
----
-
-## Author
-
-**Dinuka Dilshan**
-- GitHub: [@dinukadilshan03](https://github.com/dinukadilshan03)
-- Repository: [Obesity-Classification](https://github.com/dinukadilshan03/Obesity-Classification)
-
----
-
-## Acknowledgments
-
-- Dataset sourced from publicly available obesity research data
-- Built with scikit-learn, Streamlit, and the Python data science ecosystem
-- Inspired by modern healthcare AI applications
-
----
-
-**If you find this project helpful, please give it a star!**
