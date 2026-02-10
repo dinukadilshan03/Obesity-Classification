@@ -10,7 +10,7 @@ A comprehensive machine learning solution that accurately predicts obesity categ
 
 <div align="center">
 
-[![Obesity Classification App](https://img.shields.io/badge/🌐_LAUNCH_LIVE_APP-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://obesity-classification-7r3s7gmmohdf3yhobxhysy.streamlit.app/)
+[![Obesity Classification App](https://img.shields.io/badge/🌐_LAUNCH_LIVE_APP-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://obesity-classification-pipeline.streamlit.app)
 
 <a href="https://obesity-classification-pipeline.streamlit.app">
   <img src="assets/app-screenshot.png" alt="Obesity Classification Demo" width="700"/>
