@@ -115,7 +115,7 @@ From `notebooks/Evaluate.ipynb` (optimized model run):
 
 ## 9) Hyperparameter Tuning
 
-Notebook: `notebooks/Tuninig.ipynb`
+Notebook: Tuning workflow in `notebooks/Tuninig.ipynb`
 
 **Tool:** `GridSearchCV(cv=5, scoring='accuracy')`
 
@@ -201,7 +201,7 @@ uv sync
 Run notebooks in order:
 1. `notebooks/EDA.ipynb`
 2. `notebooks/Preprocessing.ipynb`
-3. `notebooks/Tuninig.ipynb`
+3. Tuning notebook: `notebooks/Tuninig.ipynb`
 4. `notebooks/Evaluate.ipynb`
 
 ### B) Use saved model artifact
@@ -269,7 +269,7 @@ Artifacts are serialized with `joblib` and loaded at inference time in `src/app.
 
 - `EDA.ipynb`: class/feature exploration and split strategy
 - `Preprocessing.ipynb`: transformer/pipeline construction
-- `Tuninig.ipynb`: GridSearchCV tuning and model selection
+- Tuning notebook (`Tuninig.ipynb`): GridSearchCV tuning and model selection
 - `Evaluate.ipynb`: classification report and confusion matrix
 
 ---
