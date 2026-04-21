@@ -1,257 +1,341 @@
-# Obesity Classification AI
+# Obesity-Classification
 
-A comprehensive machine learning solution that accurately predicts obesity categories using physical metrics, dietary habits, and lifestyle data. The project achieves **96.22% accuracy** through optimized logistic regression and provides an interactive web interface for real-time obesity risk assessment.
+A production-style machine learning project that predicts obesity class from lifestyle and physical attributes, with **96.22% test accuracy** using a tuned Logistic Regression pipeline.
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://obesity-classification-7r3s7gmmohdf3yhobxhysy.streamlit.app/)
 
 ---
 
-## Live Demo
+## 1) Executive Summary
 
-<div align="center">
+This project builds and deploys an end-to-end ML pipeline for multiclass obesity classification (7 classes), from EDA to preprocessing, model tuning, evaluation, and Streamlit deployment.
 
-[![Obesity Classification App](https://img.shields.io/badge/🌐_LAUNCH_LIVE_APP-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://obesity-classification-pipeline.streamlit.app)
-
-<a href="https://obesity-classification-pipeline.streamlit.app">
-  <img src="assets/app-screenshot.png" alt="Obesity Classification Demo" width="700"/>
-</a>
-</div>
+**Key results (best notebook run):**
+- Test Accuracy: **96.22%**
+- CV Accuracy (GridSearchCV best): **95.50%**
+- Macro Precision / Recall / F1: **0.96 / 0.96 / 0.96**
 
 ---
 
-## Project Overview
+## 2) Problem Statement
 
-This AI-powered system classifies individuals into **7 distinct obesity categories** ranging from Insufficient Weight to Obesity Type III. The solution combines advanced feature engineering, robust preprocessing pipelines, and hyperparameter-optimized machine learning to deliver medical-grade predictions with high reliability.
+Obesity risk is influenced by multiple factors (physical metrics, diet, and behavior). A reliable classifier helps quickly stratify individuals into risk categories for early intervention, triage, and awareness workflows.
 
-### Obesity Categories
-- **Insufficient Weight**
-- **Normal Weight**
-- **Overweight Level I**
-- **Overweight Level II**
-- **Obesity Type I**
-- **Obesity Type II**
-- **Obesity Type III**
+**Business case / value:**
+- Faster risk screening support
+- Consistent, data-driven categorization
+- Deployable UI for non-technical users
 
 ---
 
-## Architecture
+## 3) Solution Overview
 
-### System Design
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    INPUT DATA LAYER                         │
-│  • Physical Metrics (Age, Gender, Height, Weight)           │
-│  • Dietary Habits (Meal frequency, Calorie intake, etc.)    │
-│  • Lifestyle Factors (Exercise, Tech usage, Transport)      │
-└────────────────────┬────────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────────┐
-│              PREPROCESSING PIPELINE                         │
-│  ┌──────────────────────────────────────────────────┐       │
-│  │  1. Feature Engineering                          │       │
-│  │     └─ BMI Calculation (Weight/Height²)          │       │
-│  ├──────────────────────────────────────────────────┤       │
-│  │  2. Data Transformation                          │       │
-│  │     ├─ RobustScaler (Numerical features)         │       │
-│  │     ├─ OrdinalEncoder (Ordered categories)       │       │
-│  │     └─ OneHotEncoder (Nominal categories)        │       │
-│  └──────────────────────────────────────────────────┘       │
-└────────────────────┬────────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────────┐
-│                ML MODEL LAYER                               │
-│  ┌──────────────────────────────────────────────────┐       │
-│  │  Logistic Regression Classifier                  │       │
-│  │  • Solver: lbfgs                                 │       │
-│  │  • Regularization: C=100.0                       │       │
-│  │  • Multi-class: One-vs-Rest                      │       │
-│  │  • Max Iterations: 1000                          │       │
-│  └──────────────────────────────────────────────────┘       │
-└────────────────────┬────────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────────┐
-│              PREDICTION & OUTPUT LAYER                      │
-│  • Obesity Category Classification                          │
-│  • Confidence Scores                                        │
-│  • Personalized Health Insights                             │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### Data Flow
-
-1. **Data Ingestion**: 17 features collected from user input
-2. **Feature Engineering**: BMI calculated dynamically
-3. **Preprocessing**: Parallel transformation pipelines (numerical, ordinal, categorical)
-4. **Prediction**: Scikit-learn pipeline executes full workflow
-5. **Output**: Obesity category with supporting metrics
+High-level approach:
+1. Load obesity dataset
+2. Perform EDA and stratified split
+3. Engineer BMI feature (`Weight / Height²`)
+4. Apply mixed preprocessing (scaling + encoding)
+5. Train/tune Logistic Regression with GridSearchCV
+6. Evaluate with classification report + confusion matrix
+7. Deploy trained pipeline in Streamlit app
 
 ---
 
-## Tech Stack
+## 4) Dataset Description
 
-### **Core Machine Learning**
-- **Python 3.x** - Primary programming language
-- **Scikit-learn** - ML model development, preprocessing, and pipeline orchestration
-- **Pandas** - Data manipulation and analysis
-- **NumPy** - Numerical computations
+- **File in repo:** `data/ObesityDataSet_raw.csv`
+- **Rows:** 2,111
+- **Columns:** 17 total (16 predictors + 1 target)
+- **Target column:** `NObeyesdad`
+- **Classes:**
+  - Insufficient_Weight (272)
+  - Normal_Weight (287)
+  - Overweight_Level_I (290)
+  - Overweight_Level_II (290)
+  - Obesity_Type_I (351)
+  - Obesity_Type_II (297)
+  - Obesity_Type_III (324)
 
-### **Web Application**
-- **Streamlit** - Interactive web interface and deployment
-- **Joblib** - Model serialization and loading
-
-### **Data Processing & Visualization**
-- **Pandas** - DataFrame operations and data wrangling
-- **NumPy** - Array operations and mathematical functions
-- **Matplotlib** (via Streamlit) - Data visualization in notebooks
-
-### **Development & Analysis**
-- **Jupyter Notebook** - Exploratory data analysis and experimentation
-- **IPython** - Enhanced interactive Python shell
-
-### **Model Persistence**
-- **Joblib** - Efficient model serialization (`.pkl` format)
-
-### **Version Control**
-- **Git** - Source code version control
-- **GitHub** - Repository hosting and collaboration
+**Feature groups:**
+- Physical: `Gender`, `Age`, `Height`, `Weight`
+- Dietary: `FAVC`, `FCVC`, `NCP`, `CAEC`, `CH2O`, `CALC`
+- Lifestyle/History: `family_history_with_overweight`, `SMOKE`, `SCC`, `FAF`, `TUE`, `MTRANS`
 
 ---
 
-## Technologies & Methodologies
+## 5) Feature Engineering
 
-### Machine Learning Algorithms
-- **Logistic Regression** (Primary classifier)
-  - Multinomial classification with lbfgs solver
-  - L2 regularization (C=100.0)
-  - Optimized through GridSearchCV
-
-### Data Preprocessing Techniques
-- **RobustScaler**: Handles outliers in numerical features (Age, BMI, etc.)
-- **OrdinalEncoder**: Preserves order in frequency-based features (FCVC, NCP, etc.)
-- **OneHotEncoder**: Encodes nominal categories (Gender, Transportation, etc.)
-- **Custom Transformers**: BMI calculation using `FunctionTransformer`
-
-### Feature Engineering
-- **BMI Derivation**: Weight / Height² formula
-- **17 Input Features**: Comprehensive behavioral and physical metrics
-- **Domain Knowledge Integration**: Medically relevant feature selection
-
-### Model Optimization
-- **Hyperparameter Tuning**: GridSearchCV with 5-fold cross-validation
-- **Pipeline Architecture**: End-to-end sklearn Pipeline for reproducibility
-- **Column Transformers**: Parallel processing of different feature types
-
-### Validation Strategy
-- **Train-Test Split**: 80-20 stratified split
-- **Cross-Validation**: 5-fold CV for robust evaluation
-- **Metrics**: Accuracy, Precision, Recall, F1-Score, Confusion Matrix
+- Custom transformer in `src/preprocessing.py` adds:
+  - **BMI = Weight / (Height²)**
+- BMI is included in numeric preprocessing and model training pipeline.
 
 ---
 
-## Model Performance
+## 6) Exploratory Data Analysis (EDA)
 
-| Metric | Score |
-|--------|-------|
-| **Test Accuracy** | 96.22% |
-| **Cross-Validation Score** | 95.50% |
-| **Algorithm** | Logistic Regression |
-| **Regularization** | C=100.0 |
-| **Solver** | lbfgs |
-| **Training Set** | 1,678 samples |
-| **Test Set** | 420 samples |
+Notebook: `notebooks/EDA.ipynb`
+
+Key outputs include:
+- Stratified train/test split to avoid leakage
+- Class distribution checks
+- Feature distribution and relationship inspection
+- Inputs for downstream preprocessing design
 
 ---
 
-## Project Structure
+## 7) Methodology
 
-```
-classification-obesity/
-│
+- **Task:** Multiclass classification (7 obesity classes)
+- **Primary algorithm:** Logistic Regression
+- **Why Logistic Regression:**
+  - Strong baseline for structured tabular data
+  - Fast training/inference
+  - Interpretable coefficients (relative feature influence)
+  - High observed accuracy after tuning (96.22%)
+
+---
+
+## 8) Model Performance
+
+From `notebooks/Evaluate.ipynb` (optimized model run):
+
+| Metric | Value |
+|---|---:|
+| Accuracy | **0.9622** |
+| Macro Precision | 0.96 |
+| Macro Recall | 0.96 |
+| Macro F1-score | 0.96 |
+| Weighted Precision | 0.96 |
+| Weighted Recall | 0.96 |
+| Weighted F1-score | 0.96 |
+
+**Confusion Matrix:** Generated in evaluation notebook via `ConfusionMatrixDisplay.from_predictions(...)`.
+
+---
+
+## 9) Hyperparameter Tuning
+
+Notebook: `notebooks/Tuninig.ipynb`
+
+**Tool:** `GridSearchCV(cv=5, scoring='accuracy')`
+
+**Parameter grid:**
+- `classifier__C`: `[0.1, 1.0, 10.0, 100.0]`
+- `classifier__max_iter`: `[1000, 2000]`
+- `classifier__solver`: `['lbfgs', 'saga']`
+
+**Best result:**
+- Best CV score: **0.9550**
+- Best params: `{'classifier__C': 100.0, 'classifier__max_iter': 1000, 'classifier__solver': 'lbfgs'}`
+
+---
+
+## 10) Data Preprocessing Pipeline
+
+Implemented with `Pipeline` + `ColumnTransformer`:
+
+1. **Feature engineering**: BMI via `FunctionTransformer`
+2. **Numeric features** (`Age`, `Height`, `Weight`, `BMI`, `FCVC`, `NCP`, `CH2O`, `FAF`, `TUE`)
+   - `RobustScaler`
+3. **Ordinal features** (`CAEC`, `CALC`)
+   - `OrdinalEncoder` with order: `['no', 'Sometimes', 'Frequently', 'Always']`
+4. **Nominal feature** (`MTRANS`)
+   - `OneHotEncoder(handle_unknown='ignore')`
+5. **Binary categoricals** (`Gender`, `FAVC`, `SMOKE`, `SCC`, `family_history_with_overweight`)
+   - Encoded in categorical branch (from notebook pipeline)
+
+---
+
+## 11) Project Structure
+
+```text
+Obesity-Classification/
+├── assets/
+│   └── app-screenshot.png               # Streamlit UI screenshot
 ├── data/
-│   └── ObesityDataSet_raw.csv          # Raw dataset
-│
+│   └── ObesityDataSet_raw.csv           # Raw dataset
 ├── models/
-│   └── obesity_classifier_v2_optimized.pkl  # Trained pipeline
-│
+│   ├── obesity_classifier_pipeline.pkl
+│   └── obesity_classifier_v2_optimized.pkl
 ├── notebooks/
-│   ├── EDA.ipynb                       # Exploratory Data Analysis
-│   ├── Preprocessing.ipynb             # Data preprocessing experiments
-│   ├── Tuninig.ipynb                   # Hyperparameter tuning
-│   └── Evaluate.ipynb                  # Model evaluation & metrics
-│
+│   ├── EDA.ipynb
+│   ├── Preprocessing.ipynb
+│   ├── Tuninig.ipynb
+│   └── Evaluate.ipynb
 ├── src/
-│   ├── __init__.py
-│   ├── app.py                          # Streamlit web application
-│   └── preprocessing.py                # Custom preprocessing functions
-│
-├── main.py                             # Main entry point
-├── requirements.txt                    # Python dependencies
-├── pyproject.toml                      # Project configuration
-└── README.md                           # Project documentation
+│   ├── app.py                           # Streamlit app
+│   └── preprocessing.py                 # BMI transformer
+├── main.py                              # Basic entry point
+├── requirements.txt
+├── pyproject.toml
+└── README.md
 ```
 
 ---
 
-## Features
+## 12) Setup & Installation
 
-### Input Parameters (17 Features)
-- **Physical Metrics**: Gender, Age, Height, Weight
-- **Dietary Habits**: High-calorie food frequency, vegetable consumption, meal count, snacking patterns, water intake, alcohol consumption
-- **Lifestyle Factors**: Family history, physical activity frequency, calorie monitoring, smoking status, technology usage, transportation mode
+```bash
+# clone
+git clone https://github.com/dinukadilshan03/Obesity-Classification.git
+cd Obesity-Classification
 
-### Application Capabilities
-- Real-time obesity category prediction
-- Interactive user-friendly interface
-- Instant AI-powered health assessment
-- Confidence scoring for predictions
-- Responsive design for all devices
+# create venv
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\\Scripts\\activate
 
----
+# install dependencies
+pip install -r requirements.txt
+```
 
-## Development Workflow
-
-1. **Exploratory Data Analysis** ([EDA.ipynb](notebooks/EDA.ipynb))
-   - Statistical analysis of 2,098 samples
-   - Feature distribution visualization
-   - Correlation analysis
-
-2. **Data Preprocessing** ([Preprocessing.ipynb](notebooks/Preprocessing.ipynb))
-   - Missing value handling
-   - Feature engineering (BMI calculation)
-   - Encoding strategy development
-
-3. **Hyperparameter Tuning** ([Tuninig.ipynb](notebooks/Tuninig.ipynb))
-   - GridSearchCV optimization
-   - Cross-validation experiments
-   - Model selection
-
-4. **Model Evaluation** ([Evaluate.ipynb](notebooks/Evaluate.ipynb))
-   - Performance metrics calculation
-   - Confusion matrix analysis
-   - Final model validation
-
-5. **Production Deployment** ([app.py](src/app.py))
-   - Streamlit application development
-   - Model integration
-   - User interface design
+Optional (uv users):
+```bash
+uv sync
+```
 
 ---
 
-## Contributing
+## 13) Running the Model
 
-Contributions are welcome! Feel free to:
-- Report bugs
-- Suggest new features
-- Submit pull requests
-- Improve documentation
+### A) Reproduce training/evaluation flow
+Run notebooks in order:
+1. `notebooks/EDA.ipynb`
+2. `notebooks/Preprocessing.ipynb`
+3. `notebooks/Tuninig.ipynb`
+4. `notebooks/Evaluate.ipynb`
+
+### B) Use saved model artifact
+The deployed app loads `models/obesity_classifier_v2_optimized.pkl`.
 
 ---
 
-## License
+## 14) Web Application
 
-This project is open-source and available under the MIT License.
+- **Framework:** Streamlit
+- **Entry point:** `src/app.py`
+- **Run locally:**
 
+```bash
+streamlit run src/app.py
+```
+
+**Live app links:**
+- https://obesity-classification-7r3s7gmmohdf3yhobxhysy.streamlit.app/
+- https://obesity-classification-pipeline.streamlit.app
+
+---
+
+## 15) Prediction Examples
+
+Sample input schema (from app form):
+
+```json
+{
+  "Gender": "Male",
+  "Age": 25,
+  "Height": 1.75,
+  "Weight": 75.0,
+  "family_history_with_overweight": "yes",
+  "FAVC": "yes",
+  "FCVC": 2.0,
+  "NCP": 3.0,
+  "CAEC": "Sometimes",
+  "SMOKE": "no",
+  "CH2O": 2.0,
+  "SCC": "no",
+  "FAF": 1.0,
+  "TUE": 1.0,
+  "CALC": "Sometimes",
+  "MTRANS": "Walking"
+}
+```
+
+Example output format:
+- `Predicted Class: Normal_Weight` (or one of the 7 class labels)
+
+---
+
+## 16) Model Artifacts
+
+Stored in `models/`:
+- `obesity_classifier_v2_optimized.pkl` (optimized deployed model)
+- `obesity_classifier_pipeline.pkl` (pipeline artifact)
+
+Artifacts are serialized with `joblib` and loaded at inference time in `src/app.py`.
+
+---
+
+## 17) Notebooks
+
+- `EDA.ipynb`: class/feature exploration and split strategy
+- `Preprocessing.ipynb`: transformer/pipeline construction
+- `Tuninig.ipynb`: GridSearchCV tuning and model selection
+- `Evaluate.ipynb`: classification report and confusion matrix
+
+---
+
+## 18) Performance Metrics (ROC, Importance, Tables)
+
+- **Metrics table:** Included in this README and detailed in `Evaluate.ipynb`
+- **Confusion matrix:** Available in `Evaluate.ipynb`
+- **ROC curve (multiclass):** Recommended as One-vs-Rest extension in evaluation workflow
+- **Feature importance:** For Logistic Regression, coefficient magnitude can be used as a feature-impact proxy
+
+> Current repository artifacts prioritize classification report + confusion matrix; ROC/feature-impact plots can be added in `Evaluate.ipynb` as a direct extension.
+
+---
+
+## 19) Optimization Strategies
+
+- Stratified split to preserve class ratios
+- 5-fold cross-validation (`GridSearchCV`)
+- Search over regularization strength, solver, and iteration limits
+- End-to-end sklearn pipeline to reduce leakage and ensure reproducibility
+
+---
+
+## 20) Deployment
+
+### Live deployment
+- Streamlit Cloud app available at the links above.
+
+### Deploy your own
+1. Push project to GitHub
+2. Create a Streamlit Cloud app pointing to `src/app.py`
+3. Ensure `requirements.txt` is present
+4. Add model files under `models/`
+5. Deploy and validate prediction flow
+
+---
+
+## 21) Future Improvements
+
+- Add ensemble benchmarks (RandomForest/XGBoost/stacking)
+- Add probability calibration and uncertainty reporting
+- Add richer monitoring/dashboard metrics
+- Add robust automated tests for preprocessing + inference paths
+- Add ROC/PR and coefficient-importance visuals to evaluation artifacts
+
+---
+
+## 22) Learning Outcomes
+
+This project demonstrates:
+- End-to-end ML workflow execution
+- Feature engineering for tabular healthcare-style data
+- Reproducible sklearn pipeline design
+- Hyperparameter tuning with cross-validation
+- Model evaluation and practical deployment via Streamlit
+
+---
+
+## 23) License & Author
+
+- **License:** MIT (as stated in repository documentation)
+- **Author:** [@dinukadilshan03](https://github.com/dinukadilshan03)
+
+---
+
+## Screenshot
+
+![Obesity Classification App](assets/app-screenshot.png)
